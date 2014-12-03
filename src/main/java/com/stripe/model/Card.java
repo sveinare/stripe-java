@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.Map;
 
-public class Card extends APIResource {
+public final class Card extends APIResource {
 	Integer expMonth;
 	Integer expYear;
 	String last4;

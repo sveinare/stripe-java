@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.List;
 
-public class Balance extends APIResource {
+public final class Balance extends APIResource {
 	Boolean livemode;
 	List<Money> pending;
 	List<Money> available;

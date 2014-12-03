@@ -1,5 +1,5 @@
 package com.stripe.model;
 
-public class ApplicationFeeCollection extends StripeCollection<ApplicationFee> {
+public final class ApplicationFeeCollection extends StripeCollection<ApplicationFee> {
 
 }

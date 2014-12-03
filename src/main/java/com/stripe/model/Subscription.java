@@ -11,7 +11,7 @@ import com.stripe.net.RequestOptions;
 import java.util.Map;
 
 
-public class Subscription extends APIResource implements MetadataStore<Subscription>{
+public final class Subscription extends APIResource implements MetadataStore<Subscription>{
 	String id;
 	Long currentPeriodEnd;
 	Long currentPeriodStart;

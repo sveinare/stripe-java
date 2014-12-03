@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.List;
 
-public class Account extends APIResource {
+public final class Account extends APIResource {
 	String id;
 	Boolean chargesEnabled;
 	Boolean detailsSubmitted;

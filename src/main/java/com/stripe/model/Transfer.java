@@ -11,7 +11,7 @@ import com.stripe.net.RequestOptions;
 import java.util.List;
 import java.util.Map;
 
-public class Transfer extends APIResource implements MetadataStore<Transfer> {
+public final class Transfer extends APIResource implements MetadataStore<Transfer> {
 	String id;
 	String status;
 	Long date;

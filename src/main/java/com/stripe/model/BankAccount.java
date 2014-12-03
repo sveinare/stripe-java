@@ -1,7 +1,7 @@
 package com.stripe.model;
 
 
-public class BankAccount extends StripeObject {
+public final class BankAccount extends StripeObject {
 	String id;
 	String country;
 	String last4;

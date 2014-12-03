@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.Map;
 
-public class Token extends APIResource {
+public final class Token extends APIResource {
 	Integer amount;
 	Long created;
 	String currency;

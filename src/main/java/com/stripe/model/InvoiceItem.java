@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.Map;
 
-public class InvoiceItem extends APIResource implements MetadataStore<InvoiceItem> {
+public final class InvoiceItem extends APIResource implements MetadataStore<InvoiceItem> {
 	Integer amount;
 	String id;
 	String currency;

@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.Map;
 
-public class ApplicationFee extends APIResource {
+public final class ApplicationFee extends APIResource {
 	Integer amount;
 	Long created;
 	String currency;

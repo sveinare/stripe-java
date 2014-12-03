@@ -1,4 +1,4 @@
 package com.stripe.model;
 
-public class ChargeCollection extends StripeCollection<Charge> {
+public final class ChargeCollection extends StripeCollection<Charge> {
 }

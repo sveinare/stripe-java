@@ -10,7 +10,7 @@ import com.stripe.net.RequestOptions;
 
 import java.util.Map;
 
-public class RecipientCardCollection extends StripeColllectionAPIResource<Card> {
+public final class RecipientCardCollection extends StripeColllectionAPIResource<Card> {
   public RecipientCardCollection all(Map<String, Object> params)
       throws AuthenticationException, InvalidRequestException,
       APIConnectionException, CardException, APIException {
