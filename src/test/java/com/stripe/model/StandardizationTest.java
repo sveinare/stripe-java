@@ -13,9 +13,8 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -23,19 +22,18 @@ import java.util.Map;
  * Simple test to make sure stripe-java provides consistent bindings.
  */
 public class StandardizationTest {
-	public Collection<Class> getAllModels() throws IOException {
-		Class<Charge> chargeClass = Charge.class;
-		ClassPath classPath = ClassPath.from(chargeClass.getClassLoader());
-		ImmutableSet<ClassPath.ClassInfo> topLevelClasses = classPath.getTopLevelClasses(chargeClass.getPackage().getName());
+	public Collection<Class> getSubClasses(Class<?> parentClass) throws IOException {
+		ClassPath classPath = ClassPath.from(parentClass.getClassLoader());
+		ImmutableSet<ClassPath.ClassInfo> topLevelClasses = classPath.getTopLevelClasses(parentClass.getPackage().getName());
 		List<Class> classList = Lists.newArrayListWithExpectedSize(topLevelClasses.size());
 		for (ClassPath.ClassInfo classInfo : topLevelClasses) {
 			Class c = classInfo.load();
-			// Skip things that aren't APIResources
-			if (!APIResource.class.isAssignableFrom(c)) {
+			// Skip things that aren't subclasses
+			if (!parentClass.isAssignableFrom(c)) {
 				continue;
 			}
-			// Skip the APIResource itself
-			if (APIResource.class == c) {
+			// Skip the class itself
+			if (parentClass == c) {
 				continue;
 			}
 			classList.add(classInfo.load());
@@ -45,8 +43,7 @@ public class StandardizationTest {
 
 	@Test
 	public void allNonDeprecatedMethodsTakeOptions() throws IOException, NoSuchMethodException {
-		for (Class aClass : getAllModels()) {
-			HashSet<Class<?>> interfaces = new HashSet<Class<?>>(Arrays.<Class<?>>asList(aClass.getInterfaces()));
+		for (Class<?> aClass : getSubClasses(APIResource.class)) {
 			for (Method method : aClass.getMethods()) {
 				// Skip methods not declared on the base class.
 				if (method.getDeclaringClass() != aClass) {
@@ -110,4 +107,15 @@ public class StandardizationTest {
 			}
 		}
 	}
+
+    @Test
+    public void allModelsAreFinalOrAbstract() throws IOException {
+        for (Class aStripeObjectClass : getSubClasses(StripeObject.class)) {
+            boolean isAbstract = Modifier.isAbstract(aStripeObjectClass.getModifiers());
+            boolean isFinal = Modifier.isFinal(aStripeObjectClass.getModifiers());
+            // We prefer having either abstract or final methods because they give us the most flexibility in modifying
+            // future versions of our API. Also, we prefer to use composition over inheritance.
+            Assert.assertTrue(String.format("Class %s should be either abstract or final, but isn't.", aStripeObjectClass.getCanonicalName()), isAbstract || isFinal);
+        }
+    }
 }
